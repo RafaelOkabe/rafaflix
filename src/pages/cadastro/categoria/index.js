@@ -23,6 +23,6 @@ function CadastroCategoria () {
         </Link>
       </PageDefault>
     )
-  }
+  } 
 
 export default CadastroCategoria
