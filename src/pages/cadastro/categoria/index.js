@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import PageDefault from '../../../componentes/PageDefault'
 import { Link } from 'react-router-dom'
 import FormField from '../../../componentes/FormFiled'
+import Button from '../../../componentes/Button'
 
 function CadastroCategoria () {
   const [categorias, setCategorias] = useState([])
@@ -42,7 +43,7 @@ function CadastroCategoria () {
         }}>
 
           <FormField
-            label='Nome da Categoria: '
+            label='Nome da Categoria'
             type='text'
             name='nome'
             value={values.nome}
@@ -50,28 +51,28 @@ function CadastroCategoria () {
           />
           
           <FormField
-            label='Descrição: '
+            label='Descrição'
             type='textarea'
             name='descricao'
             value={values.descricao}
             onChange={handlerChange}
           />
           <FormField
-            label='Cor: '
+            label='Cor'
             type='color'
             name='cor'
             value={values.cor}
             onChange={handlerChange}
           />
-            <button>
+            <Button>
               Cadastrar
-            </button>
+            </Button>
         </form>
 
         <ul>
           {categorias.map((categorias, indice) => {
             return (
-              <li key={`${categorias}${indice}`}>
+              <li key={`${categorias.nome}${indice}`}>
                 {categorias.nome}
               </li>
             )
