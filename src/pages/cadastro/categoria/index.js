@@ -1,20 +1,21 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import PageDefault from '../../../componentes/PageDefault'
 import { Link } from 'react-router-dom'
 import FormField from '../../../componentes/FormFiled'
 import Button from '../../../componentes/Button'
 
-function CadastroCategoria () {
-  const [categorias, setCategorias] = useState([])
-  
+function CadastroCategoria() {
+
   const valoresIniciais = {
     nome: '',
     descricao: '',
     cor: '',
   }
+
+  const [categorias, setCategorias] = useState([])
   const [values, setValues] = useState(valoresIniciais)
 
-  function setValue(chave, valor){
+  function setValue(chave, valor) {
     setValues({
       ...values,
       [chave]: valor, // nome: 'valor'
@@ -27,6 +28,52 @@ function CadastroCategoria () {
       infosDoEvento.target.value
     )
   }
+
+  useEffect(() => {
+    const URL_TOP = 'http://localhost:8080/categorias'
+    fetch(URL_TOP)
+      .then(async (respostaDoServidor) => {
+        const resposta = await respostaDoServidor.json()
+        setCategorias([
+          ...resposta,
+        ])
+      })
+
+    // setTimeout(() => {
+    //   setCategorias([
+    //     ...categorias,
+    //     {
+    //       "id": 1,
+    //       "nome": "Análise de Dados",
+    //       "descricao": "Vídeos sobre análise e modelagem de Dados",
+    //       "cor": "#00C86F"
+    //     },
+    //     {
+    //       "id": 2,
+    //       "nome": "Desenvolvimento Web",
+    //       "descricao": "Tudo o que você precisa saber para o desenvolvimento Web",
+    //       "cor": "#6BD1FF"
+    //     },
+    //     {
+    //       "id": 3,
+    //       "nome": "Hardware",
+    //       "descricao": "Para quem é fanático por Hardwares",
+    //       "cor": "#9cd33b"
+    //     },
+    //     {
+    //       "id": 4,
+    //       "nome": "Linux",
+    //       "descricao": "Para quem gosta de se aventurar com outros Sistemas Operacionais",
+    //       "cor": "orange"
+    //     },
+    //     {
+    //       "id": 5,
+    //       "nome": "Aprendendo a aprender tecnologia",
+    //       "descricao": "Descubra como aprender de fato a programar",
+    //       "cor": "#6b5be2"
+    //     }
+    //   ])
+    })
 
     return (
       <PageDefault>
@@ -49,7 +96,7 @@ function CadastroCategoria () {
             value={values.nome}
             onChange={handlerChange}
           />
-          
+
           <FormField
             label='Descrição'
             type='textarea'
@@ -64,11 +111,16 @@ function CadastroCategoria () {
             value={values.cor}
             onChange={handlerChange}
           />
-            <Button>
-              Cadastrar
+          <Button>
+            Cadastrar
             </Button>
         </form>
 
+        {categorias.length === 0 && (
+          <div>
+            Loading...
+          </div>
+        )}
         <ul>
           {categorias.map((categorias, indice) => {
             return (
@@ -80,10 +132,10 @@ function CadastroCategoria () {
         </ul>
 
         <Link to='/'>
-            Ir para a Home
+          Ir para a Home
         </Link>
       </PageDefault>
     )
-  } 
+  }
 
 export default CadastroCategoria
