@@ -1,6 +1,6 @@
 import React from 'react'
-import  PropTypes from 'prop-types'
-import styled, {css} from 'styled-components'
+import PropTypes from 'prop-types'
+import styled, { css } from 'styled-components'
 
 const FormFieldWrapper = styled.div`
  position: relative;
@@ -65,12 +65,13 @@ const Input = styled.input`
 `
 
 function FormField({
-  label, type, name, value, onChange,
+  label, type, name, value, onChange, suggestions,
 }) {
   const fieldId = `Id_${name}`
   const isTextarea = type === 'textarea'
   const tag = isTextarea ? 'textarea' : 'input'
   const hasValue = Boolean(value.length)
+  const hasSuggestion = Boolean(suggestions.length)
   return (
     <FormFieldWrapper>
       <Label
@@ -84,28 +85,45 @@ function FormField({
           name={name}
           hasValue={hasValue}
           onChange={onChange}
+          autoComplete={hasSuggestion ? 'off' : 'on'}
+          list={hasSuggestion ? `suggestionFor_${fieldId}` : undefined}
         />
         <Label.Text>
           {label}
           :
-        </Label.Text> 
+        </Label.Text>
+        {
+          hasSuggestion && (
+            <datalist id={`suggestionFor_${fieldId}`}>
+              {
+                suggestions.map((suggestions) => (
+                  <option value={suggestions} key={`suggestionFor_${fieldId}_option${suggestions}`}>
+                    {suggestions}
+                  </option>
+                ))
+              }
+            </datalist>
+          )}
+
       </Label>
     </FormFieldWrapper>
   );
 }
 
 FormField.defaultProps = {
-    type: 'text',
-    value: '',
-    onChange: () => {},
+  type: 'text',
+  value: '',
+  onChange: () => { },
+  suggestions: [],
 }
 
 FormField.propsTypes = {
-    label: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  suggestions: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default FormField;
