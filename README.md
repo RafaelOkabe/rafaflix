@@ -8,7 +8,7 @@
 
 Rafaflix is a project created based on the netflix platform. In order to train tools like React and React Native.
 <br/>
-Created on week of **Imersão React** da Alura Cursos. With a lof ot knowledge and experiences
+Created on week of **Imersão React** of Alura Cursos. With a lof ot knowledge and experiences
 
 ## :electric_plug: Technology
 
